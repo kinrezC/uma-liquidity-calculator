@@ -1,0 +1,12 @@
+{
+  "name": "uma-deposits-calculator",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "bn.js": "^5.1.1",
+    "emasm": "^0.1.10",
+    "kool-makerpccall": "^0.1.1",
+    "lodash": "^4.17.15"
+  }
+}

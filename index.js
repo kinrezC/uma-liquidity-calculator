@@ -7,8 +7,10 @@ const Web3 = require("web3");
 
 const web3 = new Web3();
 
-const selector =
+const SELECTOR =
   "0x70a0823100000000000000000000000000000000000000000000000000000000";
+
+const DAI = "0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa";
 
 const addresses = addrs.map(addr => addr.id);
 
@@ -17,7 +19,7 @@ const macros = addrs
   .map((addr, i) =>
     i === 0
       ? [
-          selector,
+          SELECTOR,
           "0x0",
           "mstore",
           addr,
@@ -28,13 +30,13 @@ const macros = addrs
           "0x24",
           "0x0",
           "0x0",
-          "0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa",
+          DAI,
           "gas",
           "call",
           "pop"
         ]
       : [
-          selector,
+          SELECTOR,
           "0x" + (i * 36).toString(16),
           "mstore",
           addr,
@@ -45,7 +47,7 @@ const macros = addrs
           "0x24",
           "0x" + (i * 36).toString(16),
           "0x0",
-          "0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa",
+          DAI,
           "gas",
           "call",
           "pop"

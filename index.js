@@ -3,13 +3,14 @@ const emasm = require("emasm");
 const addrs = require("./addresses");
 const BN = require("bn.js");
 const lodash = require("lodash");
+const Web3 = require("web3");
+
+const web3 = new Web3();
 
 const selector =
   "0x70a0823100000000000000000000000000000000000000000000000000000000";
 
 const addresses = addrs.map(addr => addr.id);
-
-console.log("addr len", addresses.length);
 
 const macros = addrs
   .map(addr => addr.id)
@@ -63,9 +64,19 @@ const macros = addrs
     },
     "latest"
   ]);
+
   ret = ret.substr(2);
-  console.log(ret);
-  const values = lodash.words(ret, /.{64}/g).map(v => new BN(v, 16).toString());
-  const liquidityInContracts = lodash.zipObject(addresses, values);
+  const values = lodash.words(ret, /.{64}/g).map(v => new BN(v, 16));
+  const total = values.reduce((a, c) => {
+    return a.add(c);
+  }, new BN(0, 10));
+  const liquidityInContracts = lodash.zipObject(
+    addresses,
+    values.map(v => web3.utils.fromWei(v.toString(10), "ether"))
+  );
+  console.log(
+    "Total DAI Deposited across all contracts: ",
+    web3.utils.fromWei(total.toString(10), "ether")
+  );
   console.log(liquidityInContracts);
 })();
